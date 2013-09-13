@@ -1,6 +1,9 @@
 #include <opencv2/opencv.hpp>
 #pragma once
 
+cv::Point2f getCenter(const cv::Rect& box){
+  return cv::Point2f(box.tl().x+box.width*0.5,box.tl().y+box.height*0.5);
+}
 
 float median(std::vector<float> v){
   int n = floor(v.size() / 2);
@@ -14,7 +17,10 @@ struct BoundingBox : public cv::Rect {
   BoundingBox(cv::Rect r): cv::Rect(r){}
 public:
   int sidx;             //scale index
+  int object_id;
   float confidence;
+  float density;
+  float overlap;
 };
 struct Grid{
   std::vector<BoundingBox> boxes_;
