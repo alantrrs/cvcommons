@@ -1,20 +1,22 @@
 
 #include <cvcommons.h>
 
+using namespace cv;
+
 void boxDrawerCB(int event, int x, int y, int flags, void *param){
   boxDrawerParams *p = (boxDrawerParams*)param;
   switch( event ){
-    case CV_EVENT_MOUSEMOVE:
+    case EVENT_MOUSEMOVE:
       if (p->drawing_box){
         p->box.width = x-p->box.x;
         p->box.height = y-p->box.y;
       }
       break;
-    case CV_EVENT_LBUTTONDOWN:
+    case EVENT_LBUTTONDOWN:
       p->drawing_box = true;
       p->box = cv::Rect( x, y, 0, 0 );
       break;
-    case CV_EVENT_LBUTTONUP:
+    case EVENT_LBUTTONUP:
       p->drawing_box = false;
       if( p->box.width < 0 ){
         p->box.x += p->box.width;
@@ -49,18 +51,18 @@ cv::Rect tagObject(std::string window,const cv::Mat& img){
 void clickCB(int event, int x, int y, int flags, void *param){
   mouseParams *p = (mouseParams*)param;
   switch( event ){
-    case CV_EVENT_MOUSEMOVE:
+    case EVENT_MOUSEMOVE:
       if (p->isDown){
         p->pt.x = x;
         p->pt.y = y;
       }
       break;
-    case CV_EVENT_LBUTTONDOWN:
+    case EVENT_LBUTTONDOWN:
       p->pt.x = x;
       p->pt.y = y;
       p->isDown = true;
       break;
-    case CV_EVENT_LBUTTONUP:
+    case EVENT_LBUTTONUP:
       p->isDown = false;
       break;
   }
@@ -70,7 +72,7 @@ void clickCB(int event, int x, int y, int flags, void *param){
 void addPointCB(int event, int x, int y, int flags, void *points){
   std::vector<cv::Point2f> *p = (std::vector<cv::Point2f>*)points;
   switch( event ){
-  case CV_EVENT_LBUTTONDOWN:
+  case EVENT_LBUTTONDOWN:
       p->push_back(cv::Point2f(x,y));
       break;
     }
